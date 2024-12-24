@@ -1,0 +1,127 @@
+Week-2 Spring Core:
+===================
+
+JAVA frameworks
+
+core java
+
+Spring Framework:
+=================
+framework	:ready made (Boiler plate code)-->jars-->.class
+
+	invasive 		struts,EJB-->it will force the developer to implement predefined api
+	non-invasive	spring,hibernate-->it will never force the developer to implement predefined api
+
+spring is non-invasive framework
+
+	django,flask-->web frameworks
+	servlets,jsp--->
+
+servlets -->java web app
+
+3 ways 
+
+1)Servlet 			code reusability
+2)GenericServlet
+3)HttpServlet				extends,implements
+
+class Login implements Servlet
+{
+
+
+}
+class Login extends GenericServlet/HttpServlet(12 methods)
+{
+
+
+} heavy weight 
+Servlets/EJB--->force heavy weight components
+Size 		
+
+					light weight 
+
+Spring is non-invasive framework,which is used to create light weight and loosley coupled app.
+
+		invasive/non-invasive
+		light weight/heavy weight
+		loosley coupled/tightly coupled
+
+
+class Test
+{
+	public Test(String name){
+	
+	}
+	public void m1()
+	{
+	.....
+	}
+
+}
+//tightly coupled
+class Client
+{
+	public static void main(String args[]){
+		Test test=new Test();//
+			test.m1();
+	}
+
+}
+EJB-->Rod johnson 
+2003		interface21
+Spring  1.x
+
+		6.x
+
+java 
+
+	Spring container---
+		no object creation
+
+Spring loosley coupled 
+
+container:	BeanFactory/ApplicationContext
+
+object life cycle 
+
+1)object creation
+2)wiring the objects
+3)configuring the objects
+4)destroying the object 
+
+
+spring framework
+	1)spring core/dependency injection module/IOC
+	2)spring jdbc
+	3)spring jpa
+	4)spring web
+	5)spring rest......
+	
+	
+	Spring Core Module:
+	===================
+			1)setter injection
+			2)constructor injection
+			3)autowiring 
+			
+			
+			file
+			1000 files--->ZIP
+			
+			java
+			--->jar
+			
+			jars
+			
+			
+			MAVEN-->jars
+			
+			pom.xml
+			<project>
+		<dependencies>
+		
+			<dependency>
+
+
+			</project>
+			
