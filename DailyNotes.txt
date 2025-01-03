@@ -5,6 +5,11 @@ JAVA frameworks
 
 core java
 
+By default parent class for every java class is java.lang.Object
+By default package for every java file is java.lang
+
+
+
 Spring Framework:
 =================
 framework	:ready made (Boiler plate code)-->jars-->.class
@@ -94,7 +99,7 @@ spring framework
 	1)spring core/dependency injection module/IOC
 	2)spring jdbc
 	3)spring jpa
-	4)spring web
+	4)spring web/mvc
 	5)spring rest......
 	
 	
@@ -104,7 +109,9 @@ spring framework
 			2)constructor injection
 			3)autowiring 
 			
-			
+											xml configuring  <beans><bean><property><constructor-arg>
+											annotation
+											java config
 			file
 			1000 files--->ZIP
 			
@@ -125,3 +132,77 @@ spring framework
 
 			</project>
 			
+
+@Component
+@Configuration
+@ComponentScan
+@Autowired
+@Scope
+@Value
+@Qualifier
+
+NOTE:spring has given annotations for user defined classes but not for predefined classes.
+										@Component/@Service/@Repository  
+										
+										Autoconfiguration
+spring core 
+
+Database
+
+				JDBC	API
+			Java <-------->Database
+										
+5 steps:
+========			
+1)load the driver class
+
+2)create the connection
+
+3)create the statement
+
+4)execute the query
+
+5)close the connection
+
+
+				
+Spring MVC:
+==========	
+
+
+
+class  Test
+{
+ static	String name="xyz";	
+
+}
+
+
+
+	Test.name.length()
+
+class System{
+static PrintStream out;
+
+}
+System.out.println("")
+
+
+Spring MVC:
+==========
+
+	server -->tomcat
+	
+	
+	servlet
+	
+	
+	MVC:Model view controller 
+	
+	spring MVC:DisptacherServlet (Front controller )
+	
+	
+	
+	
+
+
