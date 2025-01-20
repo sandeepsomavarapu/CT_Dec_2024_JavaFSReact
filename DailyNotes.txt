@@ -204,5 +204,263 @@ Spring MVC:
 	
 	
 	
+	1)Autoconfiguration
+	
+	2)Starters					starter-parent 
+	
+	3)Embeded Server
+	
+	4)Actuator  endpoints urls Insite  
+	
+	
 
 
+		JDBC
+		
+		
+		
+		JPA--API
+				zero querys
+				zero table creation
+				cache support 
+				
+				ORM tools-->hibernate,eclipse link,top link,ibatis.....
+				
+				hibernate 
+				
+				
+		JPA		
+			Hibernate	
+				
+				ORM
+				Employee --->  employee 
+				   empId --->  empId
+					object--->record/row
+				
+				
+		EmployeeApp		
+				
+			Employee.java-->Entity class 	@Entity
+			
+			Main class
+			
+			configuration file -->xml
+			
+				4 DB Properties 
+				3 hibernate properties 
+			
+			
+				
+				Exception Handling 
+				
+				
+				
+				@ExceptionHandler(StudentNotFound.class)
+				public void handleException(){
+				
+				
+				}
+				
+Junit/Mockito/Spring AOP		
+				
+				
+		Testing:selenium...
+			
+				
+			public int addOfTwo(int a,int b){
+				
+				return a-b;
+				
+			}	
+			
+			int result=addOfTwo(12,13);
+			
+				25,-1
+				
+				
+				junittesting
+				
+				
+				5.x			--->junit jupiter
+				
+				
+				
+						TDD 			BDD
+						
+						
+						
+						
+						Junit Platform(Junit Api Engine)
+						Junit  Jupiter
+						Junit Vintage
+						
+						
+						
+					RRR-->	RGR-->RED ,GREEN,Refactor
+					
+						3.8.1-->jupitor--->
+					
+					@Test
+					@BeforeAll	
+					@BeforeEach
+					@AfterAll
+					@AfterEach
+					@DisplayName
+					@ParameterizedTest
+					@valueSource
+					@Disabled(@Ignore)
+					
+					
+					Unit testing
+					Mockito
+					
+					
+				
+					
+											
+					controller layer      service layer       repository layer    --->DB
+					
+					
+											addOfTwo(int a,int b)		--->		DB
+											{
+											int result=a-b;
+											...
+											....
+											repo.add
+											}
+											
+											
+						@ExtendsWith()					
+						class TestCase
+						{
+						@Autowired
+						ServiceClass service;
+						@Mock
+						@InjectMocks
+						ServiceRepo repo;
+						
+						
+						
+						@Test
+						public void calciTest()
+						{
+						
+							when(repo.addOfTwo()).thenReturn(30);
+								assertEquals(30,service.addOfTwo(10,20));
+						}
+						
+						}						
+						
+						
+						
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.11.3</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>5.11.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-junit-jupiter</artifactId>
+			<version>5.12.0</version>
+			<scope>test</scope>
+		</dependency>
+		
+		
+		
+		
+		
+		
+		JDBC
+		
+		JPA
+		
+			zero querys
+			DB Independent 
+			no table creations
+			relations 
+			no exception handling
+
+	
+		
+		
+		@Entity
+		@Id
+		@Column
+		@Table
+		@GeneratedValue
+		
+		@OneToOne
+		@OneToMany
+		@ManyToOne
+		@ManyToMany
+		
+		
+		
+		eid  ename    esal 		 edesg    		deptno   dname  dlocation
+		1	  x			100		developer		10		  A		  Hyd
+		2	  y			200		admin			20		  B		  Banglore
+		3	  z			100		hr				30		  C		  Delhi
+		4	  l			400		developer		10		  A		  Hyd
+		5	  l			760		admin			20		  B		  Banglore
+		
+
+		
+		Dept
+		deptno   dname   dloc
+		10			A		HYD
+		20			B		Banglore
+		30			C		Delhi
+		
+		
+		
+				EMP  
+		eid  ename    esal 		 edesg       deptno  
+		1	  x			100		developer		10		
+		2	  y			200		admin			20		 
+		3	  z			100		hr				30		 
+		4	  l			400		developer		10		 
+		5	  l			760		admin			20		 
+		
+		Foreign key
+		
+		
+		
+		
+		
+		alter table emp add constraint cts_fk foreign key(deptno) references dept(deptno) 
+		
+		
+		
+		
+		
+		Uni directional
+		@OneToOne
+		@OneToMany
+		@ManyToOne
+		@ManyToMany
+		
+		Bi Directional
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		

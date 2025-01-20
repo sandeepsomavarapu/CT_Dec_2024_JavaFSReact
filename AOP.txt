@@ -1,0 +1,522 @@
+AOP:
+----
+
+business methods+services
+
+
+seprate the cross cutting concerns(The cross-cutting concern is a concern which is 
+applicable throughout the application)
+		ex:logging,authentication,autherization,transactional,MAILING
+
+**earlier the industry people  developed both business  methods and services combinly.
+Ex:-
+class account
+{
+public void withdraw()
+{
+ }
+authentication()//service
+{
+}
+public void transferBalance()
+{
+-----
+------
+-----
+}
+Authentication service;
+public void checkBalance()
+{
+}}
+//if may same service is required for different business methods,earlier they used write same service for 
+multiple business methods,if we write like that application size will be increased.
+
+
+now if we implement that common service separatly,and if we include that service at run time for required
+ business methods based on requirement, code is redcued performance will be increased,if we made any changes 
+ in service we no need to write multiple times 
+
+
+if we want make service and business logic  separatly and add the service  for multiple business methods 
+we need to go for AOP-->Aspect oriented programming
+
+  
+Aspect Oreinted Programming:-
+--------------------------
+Aspect ----name of the Service 
+
+Advice ----implemention of service
+
+Saparating the services and business methods and if we want include at runtime both AOP. 
+
+**Application ------Business logic,security,transactional,logging,MAILING.
+
+
+ASPECT-name of the service(authentication,logging,timer)
+  
+Advice- implementation of aspect is noting but a advice.(business logic/java code)
+     
+As part of AOP we have four types advices
+                     
+                     Before Advice
+                     After Advice
+                     Around Advice
+                     Throughs Advice
+					 After Return
+
+Before Advice:-
+=============
+1)it executes before our business method execution
+
+Ex:-
+====
+m1()
+m2()
+
+**these two are business methods ,here before m1() i want execute service method,now we need to implement the Before Advice.
+
+* if we want implement the Before Advice here we need to implement the interface MethodBeforeAdvice(I) it is the predefined interface available to the AOP package.
+
+
+import  org.spfw..aop.*;
+import java.lang.reflect.*;
+
+public class WelcomeAdvice implements MethodBeforeAdvice
+{
+public void Before(method  m,Object arg,Object target )throws exception//it has totally three parameters
+{
+Sop("Am method Before Advice ");
+
+//method m=>if we want get the business method name ////////(m1,m2,m3)
+
+//Object arg   ==>if we want get the parameters present in the  business method we can use the second  ////m1(int a,int b)
+//Object target ==> this parameter was taken by  target class for example m1 ,m2  are interface the implementation class is like test 
+
+based on these parameters the  service method will be executed
+}
+}
+
+
+After Advice:-
+=============
+
+2)it executes after our business method executing.
+
+**if we want to implementing the AfterAdvice we need to implement one predefined interface called AfterReturnningAdvice
+
+
+
+import  org.sfw.aop.*;
+import java.lang.reflect.*;   //method m present in reflect package
+
+public class GoodBoyAdvice implements AfterReturningAdvice
+{
+public void afterReturuning(Object returnvalue ,_,_,_)throws Exception
+{
+System.out.println(aftre retruning Advice);
+
+//Object returnvalue==>returned value of business method,if we have any return value  
+}
+}
+now we are including the services with different business classes 
+
+interface TestInter
+{
+public void  m1();
+public void m2();
+}
+
+public class TestBean implements TestInter
+{
+public void m1()
+{
+s.o.p("i am  m1 business method");
+}
+public void m2()
+{
+sop("i am m2 business method")
+}
+}
+
+By configering  these we can add the services to business methods at run time.
+
+<bean id="id1" class="TestBean"/>
+
+<bean id="id2" class="WelcomeAdvice"/>
+
+<bean id="id3" class="GoodByeAdvice"/>
+
+<bean id="id4" class="org.springframework.aop.framework.ProxyFactoryBean">
+<property name="proxyInterfaces">
+<value>TestInter</value>
+</property>
+<property name="interceptorNames">
+<list>
+<value>id2</value>
+<value>id3</value>
+</list>
+</property>
+<property name="target">
+<ref local="id1"/>
+</property>
+</bean>
+
+here one predefined class  there called proxyfactorybean,its having three properties they are like above....
+
+ac.xml
+*********************************************************************************************
+
+
+Here if we execute this  two services will be added to two business classes and if we have 100 business classes these are gng to append all business classes but some times some services are specific,some are not required this is drawback here in that case we have to go for pointcut concept and we can apply some of the services to some of the business methods.
+
+here we have to rembeber two classes 
+
+1)NameMatchMethodPointCutAdviser          ===>this class geven by two propertys  	1)mappedName  2)mappedNames
+
+2)JdkRegexpMethodPointcutAdviser         ===>this class geven by two propertys        1)pattern  2)patterns
+
+these two are predefined classes given by org.sfw.aop.support.*;	
+
+By using these two classes we can apply services to specific business classes.
+
+
+interface TestInter
+{
+public  void sayHello();
+public void sayBye();
+public void getData();
+public void  getMyData();
+}
+**if we want apply some services to specific business methods we need to compare 	
+our business method through some name or through some regular expression
+
+through some name===>NameMatchMethodPointCut 
+regglar expression====>)JdkRegexpMethodPointcut
+<bean id="id1" class="WelcomeAdvice"/>
+<bean id="id2" class="org.springframework.aop.support.NameMatchMethodPointCut"> 
+<property name="mappedName">
+<value>say*</value>                //here say * means what are the methods starting with say those methods eligable to this advice.
+</property>
+
+
+
+<bean id="id3" class="org.spfw.aop.support.DefaultPointCutAdviser">
+<property name="pointcut" ref="id2">
+<property name="advice" ref="id1" >
+</bean>
+
+
+**mappedNames means if we have methods like x(),y(),z() here we need to use different names for different advice now we need to use "mappedNames"means different names we need to configure in the value  
+
+**NameMatchMethodPointCut  here this class is responcible to which methods are eligiable to get the advice .....
+
+
+**But who is responcible to apply that advice to particular business method here one more class is there we need to configure  called DefaultPointCutAdviser
+
+**this class was provided by the two properties 
+
+
+
+****************************************************************************
+
+if we want represent using reggular expression we can go for    JdkRegexpMethodPointcut
+
+
+for example
+
+[.*get.+Data]
+
+
+.*       ==>zero(or)more
+.+      ==>one or more
+.?      ==>zero or one
+.         ==>zero
+
+
+interface TestInterimport org.springframework.beans.factory.BeanFactory;  
+import org.springframework.beans.factory.xml.XmlBeanFactory;  
+import org.springframework.core.io.ClassPathResource;  
+import org.springframework.core.io.Resource;  
+  
+public class Test {  
+public static void main(String[] args)
+{  
+    Resource r=new ClassPathResource("applicationContext.xml");  
+    
+    BeanFactory factory=new XmlBeanFactory(r);  
+      
+    Validator v=factory.getBean("id",Validator.class);  
+    try
+    {  
+    v.validate(17);  
+    }
+    
+    catch(Exception e)
+    {
+    	e.printStackTrace();
+    	
+    }  
+}  
+}  
+{
+public  void sayHello();
+
+public void sayBye();
+
+public void getData();
+
+public void  getMyData();
+
+}
+
+//here fourth business method will get chance for advice as per above Regguar expression
+
+if it is single  Regguar expression we have to take pattern ,if more than one we have to take patterns
+
+
+<bean id="id4" class="GoodByeAdvice"/>
+<bean id="id5" class="orgsfw.aop.support.jdkregexpmethodpointcut">
+<property name="pattern">
+<value> .*get.+data</value>
+</property>
+<bean>
+<bean id="id6" class="org.springfw.aop.support.defaultpointcutadvicer">
+<property name="pointcut" ref="id5"/>
+<property name="advice" ref="id4"/>
+</bean>
+
+now we can handover to proxyfactorybean 
+
+
+AroundAdvice :-
+==============
+it's a combination of before and after
+
+
+**if we want implemeting the AroundAdvice we need to implement  MethodInterceptor 
+
+
+**it is providing one predefined method called invoke()
+
+
+**it (service )will be execute both cases like before executing the business method and after executing the business method  
+
+
+ ThroughsAdvice:--
+==================
+**if we want implemeting the ThroughsAdvice we need to implement   ThroughsAdvice.
+
+**it is providing one predefined method called afterThrowing()
+
+
+
+
+AOP----It is going breaks the program logic into multiple parts /distinct parts ,each part technically we  called as 
+
+
+"Concern"......module
+
+"Cross-cutting concerns".
+
+**to implement custom Aspects....
+
+AOP Conecpts  and Terminology:
+-------------------------------------------------
+
+join Point:
+-----------------
+"business method execution" join point
+
+Advice
+-------------
+Advice represents an action taken by the aspect(Service) at a particular join point(method execution).
+
+Types:-
+
+Before Advice------it execute before join point(method execution)
+After Returning Advice(it executes after a joint point completes normally)
+After Throwing Advice(it executes if method exits by throwing an exception)
+Around Advice (it execute before and after join point)
+
+ PointCut:-
+----------------
+expression lang of AOP that matches Jointpoints.
+
+Aspect:-
+---------------
+Advices+jointpoints
+
+Interceptor:--
+----------------
+it is an aspect(service) that contains only one advice(business logic ).
+
+Weaving:--
+---------------
+it is process of linking aspect(service) with other objects. at run time 
+
+
+
+AOP Implementatons
+
+
+'AspectJ'
+
+'Spring Aop'
+
+Jboss Aop
+
+
+Spring AOP:
+------------------
+Before Advice:- it is executed before the actual method call.
+After Advice:- it is executed after the actual method call. If method returns a value, it is executed after returning value.
+Around Advice: -it is executed before and after the actual method call.
+Throws Advice:- it is executed if actual method throws exception.
+
+ProxyFactoryBean
+target
+interceptorNames
+
+
+
+
+
+
+
+@Aspect declares the class as aspect.
+@Pointcut declares the pointcut expression.
+The annotations used to create advices are given below:
+
+@Before declares the before advice. It is applied before calling the actual method.
+
+@After declares the after advice. It is applied after calling the actual method and before 
+returning result.
+
+@AfterReturning declares the after returning advice. It is applied after calling the actual method and before returning result. But you can get the result value in the advice.
+
+@Around declares the around advice. It is applied before and after calling the actual method.
+
+@AfterThrowing declares the throws advice. It is applied if actual method throws exception.
+
+
+Aop with annotation using pointcut:
+====================================
+
+Pointcut is an expression language of Spring AOP.
+
+The @Pointcut annotation is used to define the pointcut. 
+We can refer the pointcut expression by name also. 
+
+
+@Pointcut("execution(* Operation.*(..))")  
+private void doSomething() {}  
+
+The name of the pointcut expression is doSomething(). It will be applied on all the methods of Operation class regardless of return type.
+
+Understanding Pointcut Expressions
+
+
+@Pointcut("execution(public * *(..))")  
+It will be applied on all the public methods.
+
+@Pointcut("execution(public Operation.*(..))")  
+It will be applied on all the public methods of Operation class.
+
+@Pointcut("execution(* Operation.*(..))")  
+It will be applied on all the methods of Operation class.
+
+@Pointcut("execution(public Employee.set*(..))")  
+It will be applied on all the public setter methods of Employee class.
+
+@Pointcut("execution(int Operation.*(..))")  
+It will be applied on all the methods of Operation class that returns int value.
+
+
+
+
+          
+       
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   Class Test{
+	   m1()
+	   {
+	   
+	   }
+	   }
+	   
+	   @Bean//<bean></bean>
+	   @Configuration//.xml
+	   
+	   
+Aspect:The aspect is nothing but a class that implements the JEE application concerns which 
+cut through multiple classes, such as transaction management, security etc. 
+Aspects can be a normal class configured through Spring XML configuration. 
+It can also be regular classes annotated using @Aspect annotation.
+
+Advice: Advice are the specific actions taken for a particular joinpoint. Basically, 
+they are the methods that get
+ executed when a certain joinpoint meets a matching pointcut in the application.
+ 
+Pointcut: A Pointcut is an expression that is matched with join points to determine 
+whether advice needs to be executed or not.
+
+JoinPoint:The joinpoint is a candidate point in the program execution 
+where an aspect can be plugged in.
+ It could be a method that is being called,
+ an exception being thrown, or even a field being modified.
+ 
+proxy:It is an object that is created after applying advice to the target object. 
+In clients perspective, object, the target object, and the proxy object are same.
+
+weaving: Weaving is the process of linking an aspect with other application types 
+or objects to create an advised object
+
+targetobject:These are the objects on which advices are applied. In Spring AOP, 
+a subclass is created at runtime where the target method 
+is overridden and advices are included based on their configuration.
+	   
+	   
+	   
+	   
+	   
+Joinpoint: is a point of execution of the program, such as executing a method or handling an exception.
+ In Spring AOP, a joinpoint always represents a method execution. Joinpoints define the points in your 
+ application at which you can insert additional logic using AOP.
+Advice: is the code that is executed at a particular joinpoint. There are many types of advice, 
+such as before, which executes before the joinpoint, and after, which executes after it.
+Aspect: is the combination of advices and pointcuts encapsulated in a class.
+Pointcut: is a predicate or expression that matches joinpoints.
+Weaving: is the process of inserting aspects into the application code at the appropriate point. 
+AspectJ supports a weaving mechanism called loadtime weaving (LTW), in which it intercepts the underlying 
+JVM class loader and provides weaving to the bytecode when it is being loaded by the class loader.
+Target: is the object whose execution flow is modified by an AOP process. Often you see the target object 
+referred to as the advised object.
+Spring uses the AspectJ pointcut expression language by default.
+	   
+	   
+There are five types of advice in Spring AOP.
+
+Before advice: Advice that executes before a join point, but which does not have the ability to prevent execution flow proceeding to the join point (unless it throws an exception).
+After returning advice: Advice to be executed after a join point completes normally: for example, if a method returns without throwing an exception.
+After throwing advice: Advice to be executed if a method exits by throwing an exception.
+After advice: Advice to be executed regardless of the means by which a join point exits (normal or exceptional return).
+Around advice: Advice that surrounds a join point such as a method invocation. This is the most powerful kind of advice. Around advice can perform custom behavior before and after the method invocation. It is also responsible for choosing whether to proceed to the join point or to shortcut the advised method execution by returning its own return value or throwing an exception.	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
