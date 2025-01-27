@@ -1,0 +1,27 @@
+create database authenticationdb;
+create database orderdb;
+create database shoppingcartdb;
+create database productdb;
+
+use authenticationdb;
+insert into users values(123,"laxmi","laxmi");
+use productdb;
+insert into products values(1,"mobile","...","apple",23400);
+insert into products values(2,"laptop","...","dell",89400);
+insert into products values(3,"laptop","...","lenovo",73400);
+insert into products values(4,"grocerys","...","dal",5400);
+insert into products values(5,"mobile","...","samsung",33400);
+
+
+
+For Oracle :
+===========
+
+insert into users values(123,"laxmi","laxmi");
+
+
+insert into products values(1,'mobile','...','apple',23400);
+insert into products values(2,'laptop','...','dell',89400);
+insert into products values(3,'laptop','...','lenovo',73400);
+insert into products values(4,'grocerys','...','dal',5400);
+insert into products values(5,'mobile','...','samsung',33400);
